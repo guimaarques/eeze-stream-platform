@@ -1,20 +1,23 @@
 const form = document.querySelector('#video-form');
 const videoDiv = document.querySelector('#video-player');
 const videoScreen = document.querySelector('#video-screen');
+const url = 'http://localhost:8080/eeze-platform/videos'
 
 const queryParams = Object.fromEntries(new URLSearchParams(window.location.search));
 
-fetch('http://localhost:8080/videos')
-    .then(result => result.json())
+fetch(url)
+    .then(response => response.text())
     .then(result => {
 
+        var obj = JSON.parse(result);   
+
         const myVids = document.querySelector('#your-videos');
-        if(result.length > 0){
-            for(let vid of result){
+        if(obj.length > 0){
+            for(let vid of obj){
                 const li = document.createElement('LI');
                 const link = document.createElement('A');
-                link.innerText = vid;
-                link.href = window.location.origin + window.location.pathname + '?video=' + vid;
+                link.innerText = vid.name;
+                link.href = window.location.origin + window.location.pathname + '?video=' + vid.name;
                 li.appendChild(link);
                 myVids.appendChild(li);
             }
@@ -26,22 +29,22 @@ fetch('http://localhost:8080/videos')
 
 if(queryParams.video){
 
-    videoScreen.src = `http://localhost:8080/videos/${queryParams.video}`;
+    videoScreen.src = url + `/${queryParams.video}/play`;
     videoDiv.style.display = 'block';
-    document.querySelector('#now-playing')
-        .innerText = 'Now playing ' + queryParams.video;
+    //document.querySelector('#now-playing')
+    //    .innerText = 'Now playing ' + queryParams.video;
 
 }
 
-form.addEventListener('submit', ev => {
-    ev.preventDefault();
-    let data = new FormData(form);
+const video = document.querySelector("video");
 
-    fetch('http://localhost:8080/videos', {
-        method: 'POST',
-        body: data
-    }).then(result => result.text()).then(_ => {
-//        window.location.reload();
-    });
-
+video.addEventListener("ended", (event) => {
+    console.log('enough and more')
+    fetch(url + `/${queryParams.video}/view`, {
+        method: 'PATCH',
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        
+    });    
 });

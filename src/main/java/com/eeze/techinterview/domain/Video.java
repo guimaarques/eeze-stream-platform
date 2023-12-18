@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Video {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(unique = true)
@@ -46,5 +46,11 @@ public class Video {
 
     @Column(columnDefinition = "boolean default false", name = "delist")
     private boolean deList;
+
+    @Column(columnDefinition = "int default 0")
+    private int views;
+
+    @Column(columnDefinition = "int default 0")
+    private int impressions;
 
 }

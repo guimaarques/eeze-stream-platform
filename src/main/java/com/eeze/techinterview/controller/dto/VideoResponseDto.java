@@ -17,44 +17,22 @@ public class VideoResponseDto {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("title")
+    @JsonProperty("data")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String title;
+    private byte[] video;
 
-    @JsonProperty("synopisis")
+    @JsonProperty("metadata")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String synopisis;
+    private MetadataDto metadataDto;
 
-    @JsonProperty("director")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String director;
 
-    @JsonProperty("cast")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String cast;
+    public static VideoResponseDto of(Video video, boolean content) {
+        MetadataDto metadata = MetadataDto.of(video);
 
-    @JsonProperty("release_date")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String releaseDate;
-
-    @JsonProperty("genre")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String genre;
-
-    @JsonProperty("running_time")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String runningTime;
-
-    public static VideoResponseDto of(Video video) {
         return VideoResponseDto.builder()
                 .name(video.getName())
-                .title(video.getTitle())
-                .synopisis(video.getSynopisis())
-                .director(video.getDirector())
-                .cast(video.getVideoCast())
-                .releaseDate(video.getReleaseDate())
-                .genre(video.getGenre())
-                .runningTime(video.getRunningTime())
+                .video(content ? video.getData() : null)
+                .metadataDto(metadata)
                 .build();
 
     }

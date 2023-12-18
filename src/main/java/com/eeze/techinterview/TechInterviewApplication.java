@@ -14,7 +14,7 @@ public class TechInterviewApplication {
 	}
 
 	@Bean
-	public WebMvcConfigurer cors(){
+	public WebMvcConfigurer cors() {
 
 		return new WebMvcConfigurer() {
 			@Override

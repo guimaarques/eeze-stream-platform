@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "ab484dc6-fc28-4d4e-80fa-27a6c33a1c6a",
+		"name": "intervie",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get-video-by-name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/eeze-platform/videos/edicaointeressante.mp4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"eeze-platform",
+						"videos",
+						"edicaointeressante.mp4"
+					]
+				},
+				"description": "teste"
+			},
+			"response": []
+		},
+		{
+			"name": "put-metadata-by-name",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"value": "test",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "name",
+						"value": "abc.mp4",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"How to lose a guy in 10 days\",\r\n    \"synopisis\":\"romance\",\r\n    \"director\":\"Isabella\",\r\n    \"cast\":\"warner\",\r\n    \"release_date\":\"yesterday\",\r\n    \"genre\":\"romcom\",\r\n    \"running_time\":\"one hour\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/eeze-platform/videos/edicaointeressante.mp4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"eeze-platform",
+						"videos",
+						"edicaointeressante.mp4"
+					]
+				},
+				"description": "teste"
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-videos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/eeze-platform/videos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"eeze-platform",
+						"videos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-video-by-query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/eeze-platform/videos/query?field=director&value=Isabella",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"eeze-platform",
+						"videos",
+						"query"
+					],
+					"query": [
+						{
+							"key": "field",
+							"value": "director"
+						},
+						{
+							"key": "value",
+							"value": "Isabella"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post-upload-video",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/guih_/Pictures/Camera Roll/WIN_20230401_10_15_19_Pro.mp4"
+						},
+						{
+							"key": "name",
+							"value": "edicaointeressante.mp4",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/eeze-platform/videos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"eeze-platform",
+						"videos"
+					],
+					"query": [
+						{
+							"key": "file",
+							"value": "teste",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "teste",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-video-play",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/eeze-platform/videos/teste.mp4/play",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"eeze-platform",
+						"videos",
+						"teste.mp4",
+						"play"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-video-by-name",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/eeze-platform/videos/edicaointeressante.mp4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"eeze-platform",
+						"videos",
+						"edicaointeressante.mp4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-video-statistic-by-name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/eeze-platform/videos/edicaointeressante.mp4/statistics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"eeze-platform",
+						"videos",
+						"edicaointeressante.mp4",
+						"statistics"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

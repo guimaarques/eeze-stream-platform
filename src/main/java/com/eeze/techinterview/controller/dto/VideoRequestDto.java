@@ -1,9 +1,11 @@
 package com.eeze.techinterview.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class VideoRequestDto {
 
     @JsonProperty("title")
