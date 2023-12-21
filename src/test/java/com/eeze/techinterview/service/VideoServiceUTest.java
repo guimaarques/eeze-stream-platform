@@ -10,6 +10,7 @@ import com.eeze.techinterview.helper.VideoRequestDtoGenerator;
 import com.eeze.techinterview.repository.VideoRepository;
 import com.eeze.techinterview.service.impl.VideoServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,14 +35,10 @@ public class VideoServiceUTest {
         service = new VideoServiceImpl(repository);
     }
 
-    @Test
-    public void getVideo() {
-        Video expectedVideo = VideoGenerator.videoWithMetadata();
-        when(repository.findByName(expectedVideo.getName())).thenReturn(expectedVideo);
-
-        Video actualVideo = service.getVideo(expectedVideo.getName());
-
-        assertEquals(actualVideo, expectedVideo);
+    @BeforeEach
+    public void setUpBeforeEach() {
+        reset(repository);
+        clearInvocations(repository);
     }
 
     @Test
@@ -50,6 +47,16 @@ public class VideoServiceUTest {
         when(repository.findByName(expectedVideo.getName())).thenThrow(VideoNotFoundException.class);
 
         assertThrows(VideoNotFoundException.class, () -> service.getVideo(expectedVideo.getName()));
+    }
+
+    @Test
+    public void getVideo() {
+        Video expectedVideo = VideoGenerator.videoWithMetadata();
+        when(repository.findByName(expectedVideo.getName())).thenReturn(expectedVideo);
+
+        Video actualVideo = service.getVideo(expectedVideo.getName());
+
+        assertEquals(actualVideo, expectedVideo);
     }
 
     @Test
@@ -85,11 +92,12 @@ public class VideoServiceUTest {
     }
 
     @Test
-    public void throwErrorWhenVideoAlreadyExist() throws IOException {
+    public void throwErrorWhenVideoAlreadyExist() {
+        Video expectedVideo = VideoGenerator.videoWithMetadata();
+        MultipartFile file = mock(MultipartFile.class);
 
-        doReturn(true).when(repository).existsByName(any());
-
-        assertThrows(VideoAlreadyExistsException.class, () -> service.saveVideo(any(), any()));
+        when(repository.existsByName(expectedVideo.getName())).thenReturn(true);
+        assertThrows(VideoAlreadyExistsException.class, () -> service.saveVideo(file, expectedVideo.getName()));
     }
 
     @Test
