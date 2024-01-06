@@ -1,6 +1,6 @@
 package com.eeze.techinterview.controller;
 
-import com.eeze.techinterview.controller.dto.VideoResponseDto;
+import com.eeze.techinterview.controller.dto.VideoResponseDataDto;
 import com.eeze.techinterview.controller.dto.VideoStatisticsResponseDto;
 import com.eeze.techinterview.domain.Video;
 import com.eeze.techinterview.helper.VideoGenerator;
@@ -84,19 +84,21 @@ public class VideoControllerITest {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
 
-        String body = "{\n" +
-                "    \"title\":\"How to lose a guy in 10 days\",\n" +
-                "    \"synopisis\":\"romance\",\n" +
-                "    \"director\":\"Isabella\",\n" +
-                "    \"cast\":\"warner\",\n" +
-                "    \"release_date\":\"yesterday\",\n" +
-                "    \"genre\":\"romcom\",\n" +
-                "    \"running_time\":\"one hour\"\n" +
-                "}";
+        String body = """
+                {
+                    "title":"How to lose a guy in 10 days",
+                    "synopisis":"romance",
+                    "director":"Isabella",
+                    "cast":"warner",
+                    "release_date":"yesterday",
+                    "genre":"romcom",
+                    "running_time":"one hour"
+                }
+                """;
 
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<VideoResponseDto> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, entity, VideoResponseDto.class);
+        ResponseEntity<VideoResponseDataDto> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, entity, VideoResponseDataDto.class);
 
         assertEquals(responseEntity.getStatusCode().value(), 200);
         verify(service, times(1)).addMetadata(any(), any());
@@ -144,7 +146,7 @@ public class VideoControllerITest {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<VideoResponseDto> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, entity, VideoResponseDto.class);
+        ResponseEntity<VideoResponseDataDto> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, entity, VideoResponseDataDto.class);
 
         assertEquals(responseEntity.getStatusCode().value(), 200);
         verify(service, times(1)).getVideo(any());
@@ -166,7 +168,7 @@ public class VideoControllerITest {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, entity, List.class);
+        ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, entity, VideoResponseDataDto.class);
 
         assertEquals(responseEntity.getStatusCode().value(), 200);
         verify(service, times(1)).getAllVideosNames();
@@ -218,6 +220,29 @@ public class VideoControllerITest {
 
         assertEquals(responseEntity.getStatusCode().value(), 200);
 
+    }
+
+    @Test
+    public void retrieveVideMetadataFromQuery(){
+
+        var field = "field";
+        var value = "value";
+
+        String url = "http://localhost:" + port + "/eeze-platform";
+        String uri = url + "/videos/query?field=" + field + "&value=" + value;
+
+        var video = VideoGenerator.videosResponseDto();
+
+        when(service.getVideosByQuery(any(), any())).thenReturn(video);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, entity, List.class);
+
+        assertEquals(responseEntity.getStatusCode().value(), 200);
     }
 
 }
