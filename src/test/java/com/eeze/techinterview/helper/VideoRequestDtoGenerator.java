@@ -15,4 +15,5 @@ public final class VideoRequestDtoGenerator {
                 .runningTime("1 hour")
                 .build();
     }
+
 }

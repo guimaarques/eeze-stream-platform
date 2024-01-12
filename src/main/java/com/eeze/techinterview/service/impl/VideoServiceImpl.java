@@ -70,13 +70,13 @@ public class VideoServiceImpl implements VideoService {
 
         try {
             Video video = getVideo(name);
-            video.setTitle(!isNull(request.getTitle()) ? request.getTitle() : video.getTitle());
-            video.setSynopisis(!isNull(request.getSynopisis()) ? request.getSynopisis() : video.getSynopisis());
-            video.setDirector(!isNull(request.getDirector()) ? request.getDirector() : video.getDirector());
-            video.setVideoCast(!isNull(request.getCast()) ? request.getCast() : video.getVideoCast());
-            video.setReleaseDate(!isNull(request.getReleaseDate()) ? request.getReleaseDate() : video.getReleaseDate());
-            video.setGenre(!isNull(request.getGenre()) ? request.getGenre() : video.getGenre());
-            video.setRunningTime(!isNull(request.getRunningTime()) ? request.getRunningTime() : video.getRunningTime());
+            video.setTitle(request.getTitle());
+            video.setSynopisis(request.getSynopisis());
+            video.setDirector(request.getDirector());
+            video.setVideoCast(request.getCast());
+            video.setReleaseDate(request.getReleaseDate());
+            video.setGenre(request.getGenre());
+            video.setRunningTime(request.getRunningTime());
 
             return repository.save(video);
         } catch (Exception exception) {
@@ -100,10 +100,10 @@ public class VideoServiceImpl implements VideoService {
     public void increaseVideoStatistic(String name, StatisticMetricEnum statisticMetricEnum) {
         Video video = getVideo(name);
         try {
-            if(statisticMetricEnum.getDataColumn().equals("views"))
-                video.setViews(video.getViews() + 1);
-            if(statisticMetricEnum.getDataColumn().equals("impressions"))
-                video.setImpressions(video.getImpressions() + 1);
+            switch (statisticMetricEnum) {
+                case VIEWS -> video.setViews(video.getViews() + 1);
+                case IMPRESSIONS -> video.setImpressions(video.getImpressions() + 1);
+            }
             repository.save(video);
         } catch (Exception exception) {
             throw new VideoNotFoundException(exception.getMessage());
